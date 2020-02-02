@@ -1,0 +1,43 @@
+version: '2.0'
+services:
+
+  samba:
+    # https://github.com/dperson/samba
+    image: dperson/samba
+    container_name: Arcade_smb-proxy
+    volumes:
+      - roms:/mnt
+    networks:
+      arcade_vlan:
+        ipv4_address: 172.16.64.2
+    restart: always
+    ports:
+      - "172.16.64.2:445:445/tcp"
+    read_only: true
+    tmpfs:
+      - /tmp
+    stdin_open: true
+    tty: true
+    #-s "<name;/path>[;browse;readonly;guest;users;admins;writelist;comment]"
+    #-u "<username;password>[;ID;group;GID]"
+    #-p Set ownership and permissions on the shares
+    command: '-s "roms;/mnt;yes;yes;yes"
+              -p'
+
+networks:
+  arcade_vlan:
+    driver: macvlan
+    driver_opts:
+      parent: enp1s0.64
+    ipam:
+      config:
+        - subnet: 172.16.64.0/28
+          # gateway: 172.16.64.1
+
+volumes:
+   roms:
+     driver: local
+     driver_opts:
+       type: cifs
+       device: \\172.16.4.4\Game
+       o: username=anonymous,ro,vers=3.0
