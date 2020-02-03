@@ -23,6 +23,24 @@ services:
     #-p Set ownership and permissions on the shares
     command: '-s "roms;/mnt;yes;yes;yes"'
 
+  mediawiki:
+    image: mediawiki
+    container_name: Arcade_wiki
+    restart: always
+    networks:
+      arcade_vlan:
+        ipv4_address: 172.16.64.3
+    ports:
+      - 8080:80
+    volumes:
+      - /var/www/html/images
+      # After initial setup, download LocalSettings.php to the same directory as
+      # this yaml and uncomment the following line and use compose to restart
+      # the mediawiki service
+      - ./mediawiki/LocalSettings.php:/var/www/html/LocalSettings.php:ro
+      - ./mediawiki/logo.png:/var/www/html/resources/assets/wiki.png:ro
+      - ./mediawiki/data:/var/www/data
+
 networks:
   arcade_vlan:
     name: Arcade_net
