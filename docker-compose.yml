@@ -21,8 +21,7 @@ services:
     #-s "<name;/path>[;browse;readonly;guest;users;admins;writelist;comment]"
     #-u "<username;password>[;ID;group;GID]"
     #-p Set ownership and permissions on the shares
-    command: '-s "roms;/mnt;yes;yes;yes"
-              -p'
+    command: '-s "roms;/mnt;yes;yes;yes"'
 
 networks:
   arcade_vlan:
