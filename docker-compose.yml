@@ -41,6 +41,20 @@ services:
       - ./mediawiki/logo.png:/var/www/html/resources/assets/wiki.png:ro
       - ./mediawiki/data:/var/www/data
 
+  dnsmasq:
+    image: jpillora/dnsmasq
+    container_name: Arcade_dns
+    restart: always
+    env_file: ./dnsmasq/env
+    networks:
+      arcade_vlan:
+        ipv4_address: 172.16.64.4
+    ports:
+      - 53:53/udp
+      - 8080:80/tcp
+    volumes:
+      - ./dnsmasq/dnsmasq.conf:/etc/dnsmasq.conf:ro
+
 networks:
   arcade_vlan:
     name: Arcade_net
