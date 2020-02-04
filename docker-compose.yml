@@ -12,7 +12,7 @@ services:
         ipv4_address: 172.16.64.2
     restart: always
     ports:
-      - "172.16.64.2:445:445/tcp"
+      - "445:445/tcp"
     read_only: true
     tmpfs:
       - /tmp
