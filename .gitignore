@@ -1,2 +1,4 @@
 mediawiki/data/*
 mediawiki/LocalSettings.php
+rsync/roms/*
+
