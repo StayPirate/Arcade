@@ -72,6 +72,22 @@ services:
     volumes:
       - ./dnsmasq/dnsmasq.conf:/etc/dnsmasq.conf:ro
 
+  h5ai:
+    build: 
+      context: ./h5ai
+    image: h5ai:local
+    container_name: Arcade_h5ai
+    volumes:
+      # If local ROMs cache is required, then toggle comments on the below volumes
+      - roms:/www/files:ro
+      #- ./rsync/roms:/mnt:ro
+    networks:
+      arcade_vlan:
+        ipv4_address: 172.16.64.5
+    restart: always
+    ports:
+      - "80:80/tcp"
+
 networks:
   arcade_vlan:
     name: Arcade_net
