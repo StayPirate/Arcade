@@ -1,29 +1,29 @@
 version: '3.7'
 services:
 
-  # If local ROMs cache is not required, then comment out rsync service
-  rsync:
-    build: 
-      context: ./rsync
-    image: alpine-rsync:local
-    container_name: Arcade_rsync
-    volumes:
-      - roms:/mnt/remote:ro
-      - ./rsync/roms:/mnt/local
-    # Run rsync once per day
-    command: >
-      sh -c "rsync -avh /mnt/remote/ /mnt/local/ &&
-             sleep 86400"
-    restart: always
+  # If local ROMs cache is required, then uncomment rsync service
+  #rsync:
+  #  build: 
+  #    context: ./rsync
+  #  image: alpine-rsync:local
+  #  container_name: Arcade_rsync
+  #  volumes:
+  #    - roms:/mnt/remote:ro
+  #    - ./rsync/roms:/mnt/local
+  #  # Run rsync once per day
+  #  command: >
+  #    sh -c "rsync -avh /mnt/remote/ /mnt/local/ &&
+  #           sleep 86400"
+  #  restart: always
 
   samba:
     # https://github.com/dperson/samba
     image: dperson/samba
     container_name: Arcade_smb-proxy
     volumes:
-      # If local ROMs cache is not required, then toggle comments on the below volumes
-      #- roms:/mnt:ro
-      - ./rsync/roms:/mnt:ro
+      # If local ROMs cache is required, then toggle comments on the below volumes
+      - roms:/mnt:ro
+      #- ./rsync/roms:/mnt:ro
     networks:
       arcade_vlan:
         ipv4_address: 172.16.64.2
@@ -81,7 +81,6 @@ networks:
     ipam:
       config:
         - subnet: 172.16.64.0/28
-          # gateway: 172.16.64.1
 
 volumes:
    roms:
