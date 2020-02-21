@@ -14,3 +14,5 @@ RUN wget https://release.larsjung.de/h5ai/h5ai-${H5AI_VERS}.zip && \
     chown -R nginx:www-data /www && \
     sed -i "s|index.html index.htm index.php;|index.html index.htm index.php /_h5ai/public/index.php;|g" /etc/nginx/nginx.conf && \
     mkdir /www/files
+
+COPY --chown=nginx:www-data options.json /www/_h5ai/private/conf/
